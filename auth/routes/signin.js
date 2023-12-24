@@ -10,7 +10,7 @@ const router = express.Router();
 const signIn = async (req, res) => {
   const requestData = matchedData(req);
   try {
-    const user = await userSchema.findOne({ email: "pranav@gamil.com" });
+    const user = await userSchema.findOne({ email: requestData.email });
     if (user) {
       const validPassword = await bcrypt.compare(
         requestData.password,
@@ -23,14 +23,14 @@ const signIn = async (req, res) => {
         const token = jsonwebtoken.sign({ sub: { user } }, "access", {
           expiresIn: "7d",
         });
-        console.log({token});
+        console.log({ token });
         res.status(200).json({ status: true, user, token: `Bearer ${token}` });
       }
     } else {
       res.json({ error: "invalid email", field: "email" });
     }
   } catch (error) {
-    res.send({error});
+    res.send({ error });
   }
 };
 router.post("/", signInVaidationSchema, validateRequest, signIn);
