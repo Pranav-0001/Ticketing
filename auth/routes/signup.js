@@ -5,9 +5,13 @@ import { matchedData } from "express-validator";
 import bcrypt from "bcrypt";
 import userSchema from "../models/userSchema.js";
 import jsonwebtoken from "jsonwebtoken";
+import { connectQueue } from "../events/user-created-publisher.js";
+
+
 const router = express.Router();
 
 const signup = async (req, res) => {
+  connectQueue()
   const requestData = matchedData(req);
   try {
     requestData.password = await bcrypt.hash(requestData.password, 10);

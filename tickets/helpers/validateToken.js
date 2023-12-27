@@ -16,6 +16,6 @@ export const validateToken = (req, res,next) => {
     }
     next()
   } catch (error) {
-    res.status(500).json({ error });
+    res.status(500).json({ error });  
   }
 };

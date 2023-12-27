@@ -6,6 +6,8 @@ import signUpRouter from "./routes/signup.js";
 import { connect } from "./db/config.js";
 import dotenv from "dotenv";
 
+
+
 const app = express();
 app.use(express.json());
 dotenv.config();
