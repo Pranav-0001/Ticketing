@@ -1,6 +1,6 @@
 import amqp from "amqplib";
 
-var channel, connection;
+let channel, connection;
 
 export const connectQueue = async () => {
   try {
@@ -13,13 +13,19 @@ export const connectQueue = async () => {
   }
 };
 
-export const userCreatedEvent = async (data) => {
+export const closeConnection = async () => {
   try {
-    // send data to queue
-    await channel.sendToQueue(
-      "user-created",
-      Buffer.from(JSON.stringify(data))
-    );
+    await channel.close();
+    await connection.close();
+    console.log('Connection closed');
+  } catch (error) {
+    console.error('Error closing connection -', error);
+  }
+};
+
+export const sendToQueue = async (queueName, data) => {
+  try {
+    await channel.sendToQueue(queueName, Buffer.from(JSON.stringify(data)));
   } catch (error) {
     console.log({ error });
   }
