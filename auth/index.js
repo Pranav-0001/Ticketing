@@ -5,6 +5,7 @@ import signoutRouter from "./routes/signout.js";
 import signUpRouter from "./routes/signup.js";
 import { connect } from "./db/config.js";
 import dotenv from "dotenv";
+import { connectQueue } from "./events/user-created-publisher.js";
 
 
 
@@ -12,7 +13,7 @@ const app = express();
 app.use(express.json());
 dotenv.config();
 connect();
-
+connectQueue()
 app.use("/api/users/currentUser", currentUserRouter);
 app.use("/api/users/signin" ,signinRouter);
 app.use("/api/users/signout", signoutRouter);
